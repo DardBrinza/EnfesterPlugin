@@ -1,0 +1,25 @@
+name: EnfesterPlugin
+main: ru.enfester.plugin.Main
+description: Плагин Enfester
+version: 0.01
+commands:
+  enfester:
+    description: Перезагрузка EnfesterPlugin.
+    usage: /<command> reload
+    aliases: [en]
+  enfester:
+    description: Список комманд EnfesterPlugin.
+    usage: /<command> help
+    aliases: [en]
+  enfester:
+    description: Случайная телепортация.
+    usage: /<command> rtp
+    aliases: [en]
+  enfester:
+    description: Добавить матное слово в список матных слов.
+    usage: /<command> mat add [string]
+    aliases: [en]
+  enfester:
+    description: Вывести список матных слов.
+    usage: /<command> mat list
+    aliases: [en]
