@@ -11,11 +11,26 @@ craftintg:
     block: 443
     minWorld: 60
     maxCrafting: 2
-    
+
+# позиции спавна и адмн магазина
+map:
+    spawn:
+        positionX: 0
+        positionY: 0
+        positionZ: 0
+        rotation: 0
+    adminshop:
+        positionX: 0
+        positionY: 0
+        positionZ: 0
+        rotation: 0
+
 # Фильтр матных слов
 chat:
     - хуй
     - пизда
+antispam: 3
+
     
 lang:
     matmute: Тебя предупреждали не материться! Получай мут на полдня!

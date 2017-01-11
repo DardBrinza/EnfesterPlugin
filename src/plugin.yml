@@ -1,7 +1,7 @@
 name: EnfesterPlugin
 main: ru.enfester.plugin.Main
 description: Плагин Enfester
-version: 0.01
+version: 0.02
 commands:
   enfester:
     description: Перезагрузка EnfesterPlugin.
@@ -23,3 +23,16 @@ commands:
     description: Вывести список матных слов.
     usage: /<command> mat list
     aliases: [en]
+  spawn:
+    description: Телепортация на спавн сервера.
+    usage: /<command>
+  adminshop:
+    description: Телепортация в админ магазин сервера.
+    usage: /<command>
+  home:
+    description: Телепортация домой.
+    usage: /<command>
+  sethome:
+    description: Установить точку дома.
+    usage: /<command>
+    
