@@ -125,7 +125,18 @@ public class Main extends JavaPlugin implements Listener {
                 return true;
             }
             if ("help".equals(args[0])) {
-
+                player.sendMessage("Список команд:");
+                player.sendMessage("/enfester reload - Перезагрузка EnfesterPlugin.");
+                player.sendMessage("/enfester help - Список комманд EnfesterPlugin.");
+                player.sendMessage("/rtp [player] - Случайная телепортация.");
+                player.sendMessage("/enfester mat add [string] - Добавить матное слово в список матных слов.");
+                player.sendMessage("/enfester mat list - Вывести список матных слов.");
+                player.sendMessage("/spawn - Телепортация на спавн сервера.");
+                player.sendMessage("/adminshop - Телепортация в админ магазин сервера.");
+                player.sendMessage("/setspawn - Установить точку спавна.");
+                player.sendMessage("/setadminshop - Установить точку админ магаина.");
+                player.sendMessage("/home - Телепортация домой.");
+                player.sendMessage("/sethome - Установить точку дома.");
                 return true;
             }
 
