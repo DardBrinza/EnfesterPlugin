@@ -125,18 +125,18 @@ public class Main extends JavaPlugin implements Listener {
                 return true;
             }
             if ("help".equals(args[0])) {
-                player.sendMessage("Список команд:");
-                player.sendMessage("/enfester reload - Перезагрузка EnfesterPlugin.");
-                player.sendMessage("/enfester help - Список комманд EnfesterPlugin.");
-                player.sendMessage("/rtp [player] - Случайная телепортация.");
-                player.sendMessage("/enfester mat add [string] - Добавить матное слово в список матных слов.");
-                player.sendMessage("/enfester mat list - Вывести список матных слов.");
-                player.sendMessage("/spawn - Телепортация на спавн сервера.");
-                player.sendMessage("/adminshop - Телепортация в админ магазин сервера.");
-                player.sendMessage("/setspawn - Установить точку спавна.");
-                player.sendMessage("/setadminshop - Установить точку админ магаина.");
-                player.sendMessage("/home - Телепортация домой.");
-                player.sendMessage("/sethome - Установить точку дома.");
+                player.sendMessage(ChatColor.GREEN + "Список команд EnfesterPlugin:");
+                player.sendMessage(ChatColor.GREEN + "/enfester reload - Перезагрузка EnfesterPlugin.");
+                player.sendMessage(ChatColor.GREEN + "/enfester help - Список комманд EnfesterPlugin.");
+                player.sendMessage(ChatColor.GREEN + "/rtp [player] - Случайная телепортация.");
+                player.sendMessage(ChatColor.GREEN + "/enfester mat add [string] - Добавить матное слово в список матных слов.");
+                player.sendMessage(ChatColor.GREEN + "/enfester mat list - Вывести список матных слов.");
+                player.sendMessage(ChatColor.GREEN + "/spawn - Телепортация на спавн сервера.");
+                player.sendMessage(ChatColor.GREEN + "/adminshop - Телепортация в админ магазин сервера.");
+                player.sendMessage(ChatColor.GREEN + "/setspawn - Установить точку спавна.");
+                player.sendMessage(ChatColor.GREEN + "/setadminshop - Установить точку админ магаина.");
+                player.sendMessage(ChatColor.GREEN + "/home - Телепортация домой.");
+                player.sendMessage(ChatColor.GREEN + "/sethome - Установить точку дома.");
                 return true;
             }
 
@@ -200,11 +200,8 @@ public class Main extends JavaPlugin implements Listener {
                     if (!event.isAsynchronous()) {
                         event.getPlayer().sendMessage(ChatColor.RED + "Нефлуди! isAsynchronous()");
                     } else {
-                        Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-                            @Override
-                            public void run() {
-                                event.getPlayer().sendMessage(ChatColor.RED + "Нефлуди! run()");
-                            }
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+                            event.getPlayer().sendMessage(ChatColor.RED + "Нефлуди! run()");
                         });
                     }
                     setAction(event.getPlayer().getName(), true);
