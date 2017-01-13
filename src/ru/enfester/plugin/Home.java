@@ -1,3 +1,8 @@
+/*
+ * Класс CommandExecutor
+ * sethome сохранение точки дома в файл home.yml
+ * home телепортация игрока к точки дома
+ */
 package ru.enfester.plugin;
 
 import java.io.File;
@@ -24,20 +29,25 @@ public class Home implements CommandExecutor {
     File homeFile;
     FileConfiguration homes;
 
+    /**
+     * Конструктор загрузки конфика домов Если нет файла home.yml то создает его
+     *
+     * @param main главный класс
+     */
     public Home(Main main) {
         plugin = main;
-        homeFile = new File(plugin.getDataFolder(), "home.yml");
-        if (!homeFile.exists()) {
+        homeFile = new File(plugin.getDataFolder(), "home.yml"); // путь к файлу домов
+        if (!homeFile.exists()) { // если такой файл отсутствует
             try {
-                homeFile.createNewFile();
+                homeFile.createNewFile(); // создаем файл
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        homes = YamlConfiguration.loadConfiguration(homeFile);
+        homes = YamlConfiguration.loadConfiguration(homeFile); // Загружаем YAMl файла домов
 
         try {
-            homes.load(homeFile);
+            homes.load(homeFile); // Читаем данные с файла
         } catch (IOException | InvalidConfigurationException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -50,33 +60,42 @@ public class Home implements CommandExecutor {
         Location location = player.getLocation();
         String world = player.getWorld().getName();
 
-        if (command.getName().equalsIgnoreCase("sethome")) {
+        if (command.getName().equalsIgnoreCase("sethome")) { // игрок пишет команду sethome
+            // Создаем игрока в конфие
+            // Позиции дома
+            // Если нету
             homes.createSection("Home." + player.getName());
             homes.createSection("Home." + player.getName() + ".world");
             homes.createSection("Home." + player.getName() + ".x");
             homes.createSection("Home." + player.getName() + ".y");
             homes.createSection("Home." + player.getName() + ".z");
             homes.createSection("Home." + player.getName() + ".rotation");
-            saveHomes();
-
+            
+            // получаем позиции где стоит игрок
             double x = location.getBlockX();
             double y = location.getBlockY();
             double z = location.getBlockZ();
 
+            // Записываем позиции где стоит игрок как позиции дома
             homes.set("Home." + player.getName() + ".world", world);
             homes.set("Home." + player.getName() + ".x", x);
             homes.set("Home." + player.getName() + ".y", y);
             homes.set("Home." + player.getName() + ".z", z);
-            homes.set("Home." + player.getName() + ".rotation", location.getYaw());
+            homes.set("Home." + player.getName() + ".rotation", location.getYaw()); // куда игрок повернут
+            
+            // Сихраняем все в конфиг домов
             saveHomes();
 
+            // Пишем игрок об успешном сохранении дома
             player.sendMessage(ChatColor.GREEN + plugin.getConfig().getString("lang.sethome"));
         }
-
-        if (command.getName().equalsIgnoreCase("home")) {
-            if (toHome(player)) {
+     
+        if (command.getName().equalsIgnoreCase("home")) { // Игрок пишет команду home
+            if (toHome(player)) { // если дом есть
+                // пишем сообщение - приветствие дома
                 player.sendMessage(ChatColor.GREEN + plugin.getConfig().getString("lang.home"));
             } else {
+                // иначе пишем что нет дома
                 player.sendMessage(ChatColor.RED + plugin.getConfig().getString("lang.nohome"));
             }
         }
@@ -84,17 +103,20 @@ public class Home implements CommandExecutor {
 
     }
 
+    /**
+     * Телепортация игрока к точке дома, если он есть
+     *
+     * @param player игрок
+     * @return еть дом или нету
+     */
     boolean toHome(Player player) {
         Location location = getHome(player);
         double x = location.getZ();
         double y = location.getY();
         double z = location.getZ();
-
         if (x != 0.0 && y != 0.0 && z != 0.0) {
-
             player.teleport(location);
             return true;
-
         } else {
             return false;
         }

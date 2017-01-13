@@ -1,15 +1,9 @@
 package ru.enfester.plugin;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -22,7 +16,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -32,8 +25,6 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class Main extends JavaPlugin implements Listener {
 
-    Connection connection;
-    Statement statement;
     ResultSet res;
     List<String> mat;
 
@@ -44,7 +35,10 @@ public class Main extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        Sessions sessions = new Sessions(this);
+
         Bukkit.getPluginManager().registerEvents(this, this);
+        Bukkit.getPluginManager().registerEvents(sessions, this);
         loadPlugin();
 
         // Регестрируем команды для спавнов
@@ -74,39 +68,13 @@ public class Main extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        try {
-            if (!event.getPlayer().hasPlayedBefore()) {
-                event.getPlayer().sendMessage(ChatColor.GREEN + "Привет, " + event.getPlayer().getName() + "!");
-                event.getPlayer().sendMessage(ChatColor.GOLD + "Ты впервые на сервере, и был отправлен в случайную точку на карте.");
-                event.getPlayer().sendMessage(ChatColor.GOLD + "У нас конечно есть спавн /spawn и админ магазин /adminshop");
-                event.getPlayer().sendMessage(ChatColor.YELLOW + "Приятной игры на нашем сервере!");
-                new RandomTeleport(event.getPlayer());
-            }
 
-            res = statement.executeQuery("SELECT * FROM `enefster_plugin_session` WHERE `name`='" + event.getPlayer().getName() + "';");
-
-            if (!res.next()) { // Если нет в таблице то создаем 
-                statement.executeUpdate("INSERT INTO `enefster_plugin_session` (`name`, `time_connect`, `time_disconnect`, `time_play`)"
-                        + " VALUES ('" + event.getPlayer().getName() + "', CURRENT_TIMESTAMP, NULL, '0');");
-
-            }
-            statement.executeUpdate("UPDATE `enefster_plugin_session` SET `time_connect`= CURRENT_TIMESTAMP WHERE `name`='" + event.getPlayer().getName() + "';");
-
-            event.setJoinMessage("");
-        } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
-
-        try {
-            statement.executeUpdate("UPDATE `enefster_plugin_session` SET `time_disconnect`= CURRENT_TIMESTAMP, `time_play` = (CURRENT_TIMESTAMP - `time_connect` + `time_play`) WHERE `name`='" + event.getPlayer().getName() + "';");
-
-            event.setQuitMessage("");
-        } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        if (!event.getPlayer().hasPlayedBefore()) {
+            event.getPlayer().sendMessage(ChatColor.GREEN + "Привет, " + event.getPlayer().getName() + "!");
+            event.getPlayer().sendMessage(ChatColor.GOLD + "Ты впервые на сервере, и был отправлен в случайную точку на карте.");
+            event.getPlayer().sendMessage(ChatColor.GOLD + "У нас конечно есть спавн /spawn и админ магазин /adminshop");
+            event.getPlayer().sendMessage(ChatColor.YELLOW + "Приятной игры на нашем сервере!");
+            new RandomTeleport(event.getPlayer());
         }
     }
 
@@ -295,14 +263,13 @@ public class Main extends JavaPlugin implements Listener {
         getConfig().options().copyDefaults(true);
 
         buildConfig();
-        connectMysql();
 
     }
 
     public boolean reloadPlugin() {
         try {
             reloadConfig();
-            connectMysql();
+
             mat = getConfig().getStringList("chat");
             return true;
         } catch (Exception e) {
@@ -314,26 +281,6 @@ public class Main extends JavaPlugin implements Listener {
         saveConfig();
         reloadConfig();
         mat = getConfig().getStringList("chat");
-    }
-
-    public void connectMysql() {
-
-        try {
-
-            connection = DriverManager.getConnection(
-                    "jdbc:mysql://"
-                    + getConfig().getString("database.host") + ":"
-                    + getConfig().getString("database.port") + "/"
-                    + getConfig().getString("database.dbname"),
-                    getConfig().getString("database.user"),
-                    getConfig().getString("database.pass"));
-
-            statement = connection.createStatement();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
 }
