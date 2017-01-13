@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ru.enfester.plugin;
 
 import java.sql.Timestamp;
@@ -11,43 +6,33 @@ import java.util.HashMap;
 import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
  *
- * @author antiv
+ * @author Samar
  */
 public class RandomTeleport {
 
     private HashMap<Player, Long> lastrtp = new HashMap<Player, Long>();
 
-    public RandomTeleport(CommandSender sender) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            if (player.hasPermission("precipice.canrtp")) {
-                if (lastrtp.containsKey(player)) {
-                    if (player.isOp()) {
-                        randomTP(player);
-                    }
+    public RandomTeleport(Player player) {
+        if (lastrtp.containsKey(player)) {
+            if (player.isOp()) {
+                randomTP(player);
+            }
 
-                    Timestamp last = new Timestamp(lastrtp.get(player) + (1 * 60 * 1000));
-                    Date date = new Date();
-                    Timestamp now = new Timestamp(date.getTime());
+            Timestamp last = new Timestamp(lastrtp.get(player) + (1 * 60 * 1000));
+            Date date = new Date();
+            Timestamp now = new Timestamp(date.getTime());
 
-                    if (now.after(last)) {
-                        randomTP(player);
-                    } else {
-                        player.sendMessage("Sorry, you must wait to randomly teleport again");
-                    }
-                } else {
-                    randomTP(player);
-                }
+            if (now.after(last)) {
+                randomTP(player);
             } else {
-                player.sendMessage("You don't have permission to run this command");
+                player.sendMessage("Sorry, you must wait to randomly teleport again");
             }
         } else {
-            sender.sendMessage("This doesn't make sense to run from the console.");
+            randomTP(player);
         }
     }
 
