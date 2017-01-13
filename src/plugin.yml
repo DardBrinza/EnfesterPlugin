@@ -1,25 +1,42 @@
 name: EnfesterPlugin
 main: ru.enfester.plugin.Main
 description: Плагин Enfester
-version: 0.01
+version: 0.04
 commands:
-  enfester:
-    description: Перезагрузка EnfesterPlugin.
-    usage: /<command> reload
-    aliases: [en]
-  enfester:
-    description: Список комманд EnfesterPlugin.
-    usage: /<command> help
-    aliases: [en]
-  enfester:
+  en: |
+      Usage:
+      /<command> reload - Перезагрузка EnfesterPlugin.
+      /<command> help - Выводит все хомнды плагина
+      /<command> mat add [string] - Добавить матное слово в список матных слов.
+      /<command> mat list - Вывести список матных слов.
+  spawn:
+    description: Телепортация на спавн сервера.
+    usage: /<command>
+  adminshop:
+    description: Телепортация в админ магазин сервера.
+    usage: /<command>
+  setspawn:
+    description: Установить точку спавна.
+    usage: /<command>
+  setadminshop:
+    description: Установить точку админ магаина.
+    usage: /<command>
+  home:
+    description: Телепортация домой.
+    usage: /<command>
+  sethome:
+    description: Установить точку дома.
+    usage: /<command>
+  setprefix:
+    description: Установить префикс.
+    usage: /<command> prefix
+  setchatcolor:
+    description: Установить цветной чат.
+    usage: /<command> [&1,&2,...,&r]
+  setnamecolor:
+    description: Установить цветной ник.
+    usage: /<command> [&1,&2,...,&r]
+  rtp:
     description: Случайная телепортация.
-    usage: /<command> rtp
-    aliases: [en]
-  enfester:
-    description: Добавить матное слово в список матных слов.
-    usage: /<command> mat add [string]
-    aliases: [en]
-  enfester:
-    description: Вывести список матных слов.
-    usage: /<command> mat list
+    usage: /<command> [player]
     aliases: [en]
