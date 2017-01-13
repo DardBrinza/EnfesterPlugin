@@ -3,12 +3,18 @@ main: ru.enfester.plugin.Main
 description: Плагин Enfester
 version: 0.04
 commands:
-  en: |
-      Usage:
-      /<command> reload - Перезагрузка EnfesterPlugin.
-      /<command> help - Выводит все хомнды плагина
-      /<command> mat add [string] - Добавить матное слово в список матных слов.
-      /<command> mat list - Вывести список матных слов.
+  en:
+    description: Перезагрузка EnfesterPlugin.
+    usage: /<command> reload - Перезагрузка EnfesterPlugin.
+  en:
+    description: Выводит все комнды плагина.
+    usage: /<command> help - Выводит все комнды плагина.
+  en:
+    description: Добавить матное слово в список матных слов.
+    usage: /<command> mat add [string] - Добавить матное слово в список матных слов.
+  en:
+    description: Вывести список матных слов.
+    usage: /<command> mat list - Вывести список матных слов.
   spawn:
     description: Телепортация на спавн сервера.
     usage: /<command>
@@ -19,7 +25,7 @@ commands:
     description: Установить точку спавна.
     usage: /<command>
   setadminshop:
-    description: Установить точку админ магаина.
+    description: Установить точку админ магазина.
     usage: /<command>
   home:
     description: Телепортация домой.
